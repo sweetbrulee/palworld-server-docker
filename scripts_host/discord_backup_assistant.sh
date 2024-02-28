@@ -4,7 +4,7 @@
 set -e
 
 # Webhook URL for Discord integration
-WEBHOOK=https://discord.com/api/webhooks/1212361019452686376/XxDIKmn1P4-f4UWIt_MVYwYMYqam5wNub-7eZaHBkrho1e4FF75EMJV0105-_o8EIUeD
+WEBHOOK="${DISCORD_WEBHOOK_BACKUP_ASSISTANT}"
 # Username displayed in Discord messages
 USERNAME='Backup Assistant'
 # Maximum file size Discord allows (8MB for non-Nitro users)
@@ -18,7 +18,7 @@ BACKUP_FILE_PATH="/mnt/palworld/backups/$BACKUP_FILE"
 if [ -f "$BACKUP_FILE_PATH" ]; then
     # Get the file size of the backup file
     FILESIZE=$(stat -c%s "$BACKUP_FILE_PATH")
-    
+
     # If the file size exceeds Discord's limit, send a message instead of the file
     if [ $FILESIZE -gt $DISCORD_MAX_FILESIZE ]; then
         # Construct the message indicating the file is too large
