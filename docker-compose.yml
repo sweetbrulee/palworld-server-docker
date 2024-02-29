@@ -1,13 +1,14 @@
 ---
 services:
-  palworld:
+  server:
     image: thijsvanloef/palworld-server-docker:latest
     restart: unless-stopped
     container_name: palworld-server
+    network_mode: service:watcher # This is important!
     stop_grace_period: 30s # Set to however long you are willing to wait for the container to gracefully stop
-    ports:
-      - 8211:8211/udp
-      - 27015:27015/udp # Required if you want your server to show up in the community servers tab
+    #ports:
+    #- 8211:8211/udp
+    #- 27015:27015/udp # Required if you want your server to show up in the community servers tab
     environment:
       - SERVER_PASSWORD=${SERVER_PASSWORD}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
@@ -16,3 +17,19 @@ services:
       #- /etc/environment
     volumes:
       - /mnt/palworld:/palworld/
+
+  # This watcher will shut the server down if no players are in the server
+  watcher:
+    image: dnwjn/palworld-server-watcher:latest
+    container_name: palworld-watcher
+    environment:
+      - CONTAINER_NAME=palworld-server # The name of the server container
+      - GAME_PORT=8211 # The same value as `PORT` in the server container
+      - QUERY_PORT=27015 # The same value as `QUERY_PORT` in the server container
+      - LOOP_SLEEP_SECONDS=30 # How often to check the server status
+      - CONNECT_GRACE_SECONDS=60 # After starting the server, how long to wait before continuing the loop
+    ports:
+      - 8211:8211/udp # The same value as `GAME_PORT`
+      #- 27015:27015/udp # Enable to show up in the server list
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # This could be different depending on the operating system
