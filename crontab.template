@@ -1,8 +1,7 @@
 # NOTICE: This crontab will run on the main host instead of the docker container
 
-# always start docker compose on boot, and send notification to the discord webhook
-@reboot sh /root/palworld-server-docker/scripts_host/start_docker_compose.sh
-@reboot sh /root/palworld-server-docker/scripts_host/discord_server_status.sh
+# always start docker compose on boot
+@reboot sh /root/palworld-server-docker/scripts_host/start_docker_compose/.sh
 
 # send the latest backup to the discord webhook every hour
 0 * * * * sh /root/palworld-server-docker/scripts_host/discord_backup_assistant.sh

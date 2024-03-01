@@ -9,12 +9,13 @@ WEBHOOK="${DISCORD_WEBHOOK_SERVER_STATUS}"
 USERNAME='Server Status'
 
 PUBLIC_IP=$(curl -s ifconfig.me)
+PASSWORD=$1
 
 MESSAGE="
 Server has been started!
 
 **Server IP and Port**: ${PUBLIC_IP}:8211
-**Server Password**: ${SERVER_PASSWORD}
+**Server Password**: ${PASSWORD}
 "
 
 curl -X POST -F "content=${MESSAGE}" -F "username=${USERNAME}" "${WEBHOOK}"
