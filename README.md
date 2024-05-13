@@ -1,3 +1,5 @@
+# This repository is archived now.
+
 # Palworld Dedicated Server Docker
 
 [![Release](https://img.shields.io/github/v/release/thijsvanloef/palworld-server-docker)](https://github.com/thijsvanloef/palworld-server-docker/releases)
